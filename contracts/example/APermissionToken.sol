@@ -22,9 +22,8 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
    */
   modifier allow(uint256 required) {
     address owner = msg.sender;
-    uint256 permission = _permissionOf(owner);
-    if (!_permissionRequire(required, permission)) {
-      revert AccessDenied(owner, owner, permission);
+    if (!_permissionRequire(required, _permissionOf(owner))) {
+      revert AccessDenied(owner, owner, required);
     }
     _;
   }
