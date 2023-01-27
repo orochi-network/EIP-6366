@@ -18,8 +18,6 @@ interface IERC6366Meta {
 
   function symbol() external view returns (string memory);
 
-  function getAllDescription() external view returns (PermissionDescription[] memory allDescription);
-
   function getDescription(uint256 _index) external view returns (PermissionDescription memory description);
 
   function setDescription(

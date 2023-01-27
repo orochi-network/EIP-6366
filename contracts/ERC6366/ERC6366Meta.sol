@@ -55,16 +55,6 @@ contract ERC6366Meta is IERC6366Meta, IERC6366Error {
   }
 
   /**
-   * @dev Get all possible defined permissions
-   */
-  function getAllDescription() external view virtual override returns (PermissionDescription[] memory allPermissions) {
-    allPermissions = new PermissionDescription[](256);
-    for (uint256 i = 0; i < 256; i += 1) {
-      allPermissions[i] = _getDescription(i);
-    }
-  }
-
-  /**
    * @dev Get permission's description by index
    * @param _index Index of description record
    */
