@@ -2,7 +2,7 @@
 eip: 6366
 title: Permission Token
 description: A new token that held the permission of an address in an ecosystem
-author: Chiro (@chiro-hiro)
+author: Chiro (@chiro-hiro), Victor Dusart (@vdusart)
 discussions-to: https://ethereum-magicians.org/t/eip-644-a-standard-for-permission-token/9105
 ```
 

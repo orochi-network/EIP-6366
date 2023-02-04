@@ -56,6 +56,20 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
   }
 
   /**
+   * @dev Checking if an actor has sufficient permission, by himself or from a delegation, on a given permission set
+   * @param _actor Actor's address
+   * @param _owner Permission owner's address
+   * @param _required Required permission set
+   */
+  function hasPermission(
+    address _actor,
+    address _owner,
+    uint256 _required
+  ) external view returns (bool isPermissioned) {
+    return _hasPermission(_actor, _owner, _required);
+  }
+
+  /**
    * @dev Get delegated permission that owner approved to delegatee
    * @param _owner Permission owner's address
    * @param _delegatee Delegatee's address
@@ -121,6 +135,10 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
 
   function _permissionRequire(uint256 _required, uint256 _permission) internal pure returns (bool isPermission) {
     return _required == _permission & _required;
+  }
+
+  function _hasPermission(address _actor, address _owner, uint256 _required) internal view returns (bool isPermissioned) {
+    return _permissionRequire(_required, _permissionOf(_actor) | _delegated(_owner, _actor));
   }
 
   function _delegated(address _owner, address _delegatee) internal view returns (uint256 permission) {

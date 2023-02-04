@@ -74,7 +74,7 @@ contract APermissioned is IERC6366Error {
    */
   modifier allow(address _owner, uint256 _required) {
     // The actor should be the permission owner or delegatee
-    if (!opt.permissionRequire(_required, opt.permissionOf(msg.sender) | opt.delegated(_owner, msg.sender))) {
+    if (!opt.hasPermission(msg.sender, _owner, _required)) {
       revert AccessDenied(_owner, msg.sender, _required);
     }
     _;
