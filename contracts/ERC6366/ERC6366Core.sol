@@ -61,12 +61,12 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
    * @param _owner Permission owner's address
    * @param _required Required permission set
    */
-  function hasSufficientPermission(
+  function hasPermission(
     address _actor,
     address _owner,
     uint256 _required
-  ) external view returns (bool hasPermission) {
-    return _hasSufficientPermission(_actor, _owner, _required);
+  ) external view returns (bool isPermissioned) {
+    return _hasPermission(_actor, _owner, _required);
   }
 
   /**
@@ -137,7 +137,7 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
     return _required == _permission & _required;
   }
 
-  function _hasSufficientPermission(address _actor, address _owner, uint256 _required) internal view returns (bool hasPermission) {
+  function _hasPermission(address _actor, address _owner, uint256 _required) internal view returns (bool isPermissioned) {
     return _permissionRequire(_required, _permissionOf(_actor) | _delegated(_owner, _actor));
   }
 
