@@ -6,7 +6,7 @@ import './interfaces/IERC6366Error.sol';
 /**
  * @dev Implement the metadata of EIP-6366
  */
-contract ERC6366Meta is IERC6366Meta, IERC6366Error {
+contract ERC6366Meta is IERC6366Meta {
   /**
    * @dev Name of permission token
    */
@@ -94,7 +94,7 @@ contract ERC6366Meta is IERC6366Meta, IERC6366Error {
     string memory _description
   ) internal returns (bool success) {
     if (_index > 256) {
-      revert OutOfRange();
+      revert IERC6366Error.OutOfRange();
     }
     permissionIndexs[2 ** _index] = _index;
     permissionNames[_index] = _name;

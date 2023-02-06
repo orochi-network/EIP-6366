@@ -17,7 +17,7 @@ interface IERC6366Core {
 
   function permissionRequire(uint256 _required, uint256 _permission) external view returns (bool isPermission);
 
-  function hasPermission(address _actor, address _owner, uint256 _required) external view returns (bool isPermissioned);
+  function hasPermission(address _owner, address _actor, uint256 _required) external view returns (bool isPermissioned);
 
   function delegated(address _owner, address _delegatee) external view returns (uint256 permission);
 }

@@ -6,7 +6,7 @@ import './interfaces/IERC6366Core.sol';
 /**
  * @dev Implement the core of EIP-6366
  */
-contract ERC6366Core is IERC6366Core, IERC6366Error {
+contract ERC6366Core is IERC6366Core {
   /**
    * @dev Stored permission of an address
    */
@@ -57,16 +57,16 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
 
   /**
    * @dev Checking if an actor has sufficient permission, by himself or from a delegation, on a given permission set
-   * @param _actor Actor's address
    * @param _owner Permission owner's address
+   * @param _actor Actor's address
    * @param _required Required permission set
    */
   function hasPermission(
-    address _actor,
     address _owner,
+    address _actor,
     uint256 _required
-  ) external view returns (bool isPermissioned) {
-    return _hasPermission(_actor, _owner, _required);
+  ) external view override returns (bool isPermissioned) {
+    return _hasPermission(_owner, _actor, _required);
   }
 
   /**
@@ -112,7 +112,7 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
     address owner = msg.sender;
     // Prevent permission to be burnt
     if (permissions[_to] & _permission > 0) {
-      revert DuplicatedPermission(_permission);
+      revert IERC6366Error.DuplicatedPermission(_permission);
     }
     // Clean subset of permission from owner
     permissions[owner] = permissions[owner] ^ _permission;
@@ -137,7 +137,11 @@ contract ERC6366Core is IERC6366Core, IERC6366Error {
     return _required == _permission & _required;
   }
 
-  function _hasPermission(address _actor, address _owner, uint256 _required) internal view returns (bool isPermissioned) {
+  function _hasPermission(
+    address _owner,
+    address _actor,
+    uint256 _required
+  ) internal view returns (bool isPermissioned) {
     return _permissionRequire(_required, _permissionOf(_actor) | _delegated(_owner, _actor));
   }
 
