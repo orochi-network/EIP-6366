@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import './interfaces/IERC6366Error.sol';
-import './interfaces/IERC6366Core.sol';
+import './interfaces/IEIP-6366-Error.sol';
+import './interfaces/IEIP-6366-Core.sol';
 
 /**
  * @dev Implement the core of EIP-6366
  */
-contract ERC6366Core is IERC6366Core {
+contract EIP6366Core is IEIP6366Core {
   /**
    * @dev Stored permission of an address
    */
@@ -112,7 +112,7 @@ contract ERC6366Core is IERC6366Core {
     address owner = msg.sender;
     // Prevent permission to be burnt
     if (permissions[_to] & _permission > 0) {
-      revert IERC6366Error.DuplicatedPermission(_permission);
+      revert IEIP6366Error.DuplicatedPermission(_permission);
     }
     // Clean subset of permission from owner
     permissions[owner] = permissions[owner] ^ _permission;

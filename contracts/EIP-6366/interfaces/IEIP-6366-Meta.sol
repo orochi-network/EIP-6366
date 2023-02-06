@@ -2,9 +2,9 @@
 pragma solidity ^0.8.7;
 
 /**
- * @dev Defined the interface of the metadata of ERC6366, SHOULD NOT expect to be implemented
+ * @dev Defined the interface of the metadata of EIP6366, SHOULD NOT expect to be implemented
  */
-interface IERC6366Meta {
+interface IEIP6366Meta {
   struct PermissionDescription {
     uint256 index;
     uint256 permission;
