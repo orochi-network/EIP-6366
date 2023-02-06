@@ -2,11 +2,17 @@
 pragma solidity ^0.8.7;
 import '../ERC6366/ERC6366Core.sol';
 import '../ERC6366/ERC6366Meta.sol';
+import '../ERC6366/interfaces/IERC6366Error.sol';
 
 /**
  * @dev An example for mintable permission token
  */
 contract APermissionToken is ERC6366Core, ERC6366Meta {
+  /**
+   * @dev Blacklisted
+   */
+  uint256 private constant PERMISSION_DENIED = 2 ** 0;
+
   /**
    * @dev Permission to transfer permission token
    */
@@ -23,7 +29,17 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
   modifier allow(uint256 required) {
     address owner = msg.sender;
     if (!_permissionRequire(required, _permissionOf(owner))) {
-      revert AccessDenied(owner, owner, required);
+      revert IERC6366Error.AccessDenied(owner, owner, required);
+    }
+    _;
+  }
+
+  /**
+   * @dev Deny blacklisted address
+   */
+  modifier notBlacklisted() {
+    if (_permissionRequire(PERMISSION_DENIED, _permissionOf(msg.sender))) {
+      revert IERC6366Error.AccessDenied(msg.sender, msg.sender, PERMISSION_DENIED);
     }
     _;
   }
@@ -76,7 +92,7 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
   function transfer(
     address _to,
     uint256 _permission
-  ) external override allow(PERMISSION_TRANSFER) returns (bool result) {
+  ) external override allow(PERMISSION_TRANSFER) notBlacklisted returns (bool result) {
     return _transfer(_to, _permission);
   }
 }

@@ -7,23 +7,23 @@ contract AEcosystem is APermissioned {
     // Constructor code
   }
 
-  function createProposal(address _permissionOwner) external allow(_permissionOwner, PERMISSION_CREATE) {
+  function createProposal(address _permissionOwner) external allow(_permissionOwner, PERMISSION_CREATE) notBlacklisted {
     // Only allow owner or delegatee with PERMISSION_CREATE
   }
 
-  function vote() external allowOwner(PERMISSION_VOTE) {
+  function vote() external allowOwner(PERMISSION_VOTE) notBlacklisted {
     // Only allow permission owner with PERMISSION_VOTE
   }
 
-  function execute() external allowOwner(ROLE_OPERATOR) {
+  function execute() external allowOwner(ROLE_OPERATOR) notBlacklisted {
     // Only allow permission owner with ROLE_OPERATOR
   }
 
-  function stopProposal() external allowOwner(ROLE_ADMIN) {
+  function stopProposal() external allowOwner(ROLE_ADMIN) notBlacklisted {
     // Only allow permission owner with ROLE_ADMIN
   }
 
-  function register() external denyOwner {
+  function register() external notBlacklisted {
     // Permission Token is not only provide the ability to whitelist an address
     // but also provide the ability to blacklist an address.
     // In this case, blacklisted address wont able to register
