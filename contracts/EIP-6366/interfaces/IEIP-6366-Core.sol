@@ -15,7 +15,7 @@ interface IEIP6366Core {
 
   function permissionOf(address _owner) external view returns (uint256 permission);
 
-  function permissionRequire(uint256 _required, uint256 _permission) external view returns (bool isPermission);
+  function permissionRequire(uint256 _required, uint256 _permission) external view returns (bool isPermissioned);
 
   function hasPermission(address _owner, address _actor, uint256 _required) external view returns (bool isPermissioned);
 

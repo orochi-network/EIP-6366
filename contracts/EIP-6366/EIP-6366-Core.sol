@@ -51,7 +51,7 @@ contract EIP6366Core is IEIP6366Core {
   function permissionRequire(
     uint256 _required,
     uint256 _permission
-  ) external view virtual override returns (bool isPermission) {
+  ) external view virtual override returns (bool isPermissioned) {
     return _permissionRequire(_required, _permission);
   }
 
@@ -133,7 +133,7 @@ contract EIP6366Core is IEIP6366Core {
     return permissions[_owner];
   }
 
-  function _permissionRequire(uint256 _required, uint256 _permission) internal pure returns (bool isPermission) {
+  function _permissionRequire(uint256 _required, uint256 _permission) internal pure returns (bool isPermissioned) {
     return _required == _permission & _required;
   }
 
