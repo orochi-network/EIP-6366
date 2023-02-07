@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import './interfaces/IEIP-6366-Error.sol';
-import './interfaces/IEIP-6366-Core.sol';
+import './interfaces/IEIP6366Error.sol';
+import './interfaces/IEIP6366Core.sol';
 
 /**
  * @dev Implement the core of EIP-6366

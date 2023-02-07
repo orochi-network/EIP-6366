@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import './interfaces/IEIP-6366-Meta.sol';
-import './interfaces/IEIP-6366-Error.sol';
+import './interfaces/IEIP6366Meta.sol';
+import './interfaces/IEIP6366Error.sol';
 
 /**
  * @dev Implement the metadata of EIP-6366
