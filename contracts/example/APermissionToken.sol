@@ -1,12 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import '../ERC6366/ERC6366Core.sol';
-import '../ERC6366/ERC6366Meta.sol';
+import '../EIP-6366/EIP6366Core.sol';
+import '../EIP-6366/EIP6366Meta.sol';
+import '../EIP-6366/interfaces/IEIP6366Error.sol';
 
 /**
  * @dev An example for mintable permission token
  */
-contract APermissionToken is ERC6366Core, ERC6366Meta {
+contract APermissionToken is EIP6366Core, EIP6366Meta {
+  /**
+   * @dev Blacklisted
+   */
+  uint256 private constant PERMISSION_DENIED = 2 ** 0;
+
   /**
    * @dev Permission to transfer permission token
    */
@@ -23,7 +29,17 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
   modifier allow(uint256 required) {
     address owner = msg.sender;
     if (!_permissionRequire(required, _permissionOf(owner))) {
-      revert AccessDenied(owner, owner, required);
+      revert IEIP6366Error.AccessDenied(owner, owner, required);
+    }
+    _;
+  }
+
+  /**
+   * @dev Deny blacklisted address
+   */
+  modifier notBlacklisted() {
+    if (_permissionRequire(PERMISSION_DENIED, _permissionOf(msg.sender))) {
+      revert IEIP6366Error.AccessDenied(msg.sender, msg.sender, PERMISSION_DENIED);
     }
     _;
   }
@@ -31,7 +47,7 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
   /**
    * @dev Construct ERC-6366
    */
-  constructor() ERC6366Meta('Ecosystem A Permission Token', 'APT') {
+  constructor() EIP6366Meta('Ecosystem A Permission Token', 'APT') {
     _setDescription(0, 'PERMISSION_DENIED', 'Blacklisted address');
     _setDescription(1, 'PERMISSION_VOTE', 'Permission owner able to vote');
     _setDescription(2, 'PERMISSION_TRANSFER', 'Permission owner able to transfer');
@@ -76,7 +92,7 @@ contract APermissionToken is ERC6366Core, ERC6366Meta {
   function transfer(
     address _to,
     uint256 _permission
-  ) external override allow(PERMISSION_TRANSFER) returns (bool result) {
+  ) external override allow(PERMISSION_TRANSFER) notBlacklisted returns (bool result) {
     return _transfer(_to, _permission);
   }
 }

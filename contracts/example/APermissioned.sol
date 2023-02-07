@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import '../ERC6366/interfaces/IERC6366Core.sol';
-import '../ERC6366/interfaces/IERC6366Error.sol';
+import '../EIP-6366/interfaces/IEIP6366Core.sol';
+import '../EIP-6366/interfaces/IEIP6366Error.sol';
 
 /**
  * @dev Centralized definition of all possible permissions and roles
  */
-contract APermissioned is IERC6366Error {
-  IERC6366Core private opt;
+contract APermissioned {
+  IEIP6366Core private opt;
 
   /**
    * @dev No permission
@@ -54,7 +54,7 @@ contract APermissioned is IERC6366Error {
    */
   modifier allowOwner(uint256 _required) {
     if (!opt.permissionRequire(_required, opt.permissionOf(msg.sender))) {
-      revert AccessDenied(msg.sender, msg.sender, _required);
+      revert IEIP6366Error.AccessDenied(msg.sender, msg.sender, _required);
     }
     _;
   }
@@ -62,9 +62,9 @@ contract APermissioned is IERC6366Error {
   /**
    * @dev Deny blacklisted address
    */
-  modifier denyOwner() {
+  modifier notBlacklisted() {
     if (opt.permissionRequire(PERMISSION_DENIED, opt.permissionOf(msg.sender))) {
-      revert AccessDenied(msg.sender, msg.sender, PERMISSION_DENIED);
+      revert IEIP6366Error.AccessDenied(msg.sender, msg.sender, PERMISSION_DENIED);
     }
     _;
   }
@@ -74,8 +74,8 @@ contract APermissioned is IERC6366Error {
    */
   modifier allow(address _owner, uint256 _required) {
     // The actor should be the permission owner or delegatee
-    if (!opt.hasPermission(msg.sender, _owner, _required)) {
-      revert AccessDenied(_owner, msg.sender, _required);
+    if (!opt.hasPermission(_owner, msg.sender, _required)) {
+      revert IEIP6366Error.AccessDenied(_owner, msg.sender, _required);
     }
     _;
   }
@@ -84,6 +84,6 @@ contract APermissioned is IERC6366Error {
    * @dev Constructor
    */
   constructor(address _opt) {
-    opt = IERC6366Core(_opt);
+    opt = IEIP6366Core(_opt);
   }
 }
