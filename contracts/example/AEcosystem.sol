@@ -7,19 +7,19 @@ contract AEcosystem is APermissioned {
     // Constructor code
   }
 
-  function createProposal(address _permissionOwner) external allow(_permissionOwner, PERMISSION_CREATE) notBlacklisted {
+  function createProposal(address _permissionOwner) external notBlacklisted allow(_permissionOwner, PERMISSION_CREATE) {
     // Only allow owner or delegatee with PERMISSION_CREATE
   }
 
-  function vote() external allowOwner(PERMISSION_VOTE) notBlacklisted {
+  function vote() external notBlacklisted allowOwner(PERMISSION_VOTE) {
     // Only allow permission owner with PERMISSION_VOTE
   }
 
-  function execute() external allowOwner(ROLE_OPERATOR) notBlacklisted {
+  function execute() external notBlacklisted allowOwner(ROLE_OPERATOR) {
     // Only allow permission owner with ROLE_OPERATOR
   }
 
-  function stopProposal() external allowOwner(ROLE_ADMIN) notBlacklisted {
+  function stopProposal() external notBlacklisted allowOwner(ROLE_ADMIN) {
     // Only allow permission owner with ROLE_ADMIN
   }
 

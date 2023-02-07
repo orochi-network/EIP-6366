@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
-import '../EIP-6366/interfaces/IEIP-6366-Core.sol';
-import '../EIP-6366/interfaces/IEIP-6366-Error.sol';
+import '../EIP-6366/interfaces/IEIP6366Core.sol';
+import '../EIP-6366/interfaces/IEIP6366Error.sol';
 
 /**
  * @dev Centralized definition of all possible permissions and roles
